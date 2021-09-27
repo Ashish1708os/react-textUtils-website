@@ -10,6 +10,7 @@ export default function TextForm(props) {
   const handleLoClick = () => {
     // console.log("upper Case was clicked", text);
     let newtext = text.toLowerCase();
+
     setText(newtext);
   };
 
@@ -17,6 +18,21 @@ export default function TextForm(props) {
     // console.log("Handle on change was fired");
     setText(event.target.value);
     // console.log(text);
+  };
+
+  const handleClear = () => {
+    setText("");
+  };
+
+  const handleCopy = () => {
+    let textBox = document.getElementById("myBox");
+    textBox.select();
+    navigator.clipboard.writeText(textBox.value);
+  };
+
+  const handleRemoveSpave = () => {
+    let newtext = text.split(/[ ]+/);
+    setText(newtext.join(" "));
   };
 
   const [text, setText] = useState("");
@@ -36,11 +52,20 @@ export default function TextForm(props) {
             placeholder={text}
           ></textarea>
         </div>
-        <button className="btn btn-primary" onClick={handleUpClick}>
+        <button className="btn btn-primary mx-1" onClick={handleUpClick}>
           Convert to Uppercase
         </button>
-        <button className="btn btn-primary mx-3" onClick={handleLoClick}>
+        <button className="btn btn-primary mx-1" onClick={handleLoClick}>
           Convert to Lowercase
+        </button>
+        <button className="btn btn-primary mx-1" onClick={handleClear}>
+          clear
+        </button>
+        <button className="btn btn-primary mx-1" onClick={handleCopy}>
+          Copy Text
+        </button>
+        <button className="btn btn-primary mx-1" onClick={handleRemoveSpave}>
+          Remove Extra Space
         </button>
       </div>
       <div className="container my-3">
