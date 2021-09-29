@@ -35,12 +35,35 @@ export default function TextForm(props) {
     setText(newtext.join(" "));
   };
 
+  const calculateMinute = () => {
+    let minutes;
+    if (text === "") {
+      minutes = 0;
+    } else {
+      minutes = 0.008 * text.split(" ").length;
+    }
+    return minutes;
+  };
+
+  const calculateWords = () => {
+    let words;
+    if (text === "") {
+      words = 0;
+    } else {
+      words = text.split(" ").length;
+    }
+    return words;
+  };
+
   const [text, setText] = useState("");
   // text = "new state"; // Wrong Way to change the state
   // setText("new state"); // Correct Way to change the state but not working here
   return (
     <>
-      <div className="Container">
+      <div
+        className="Container"
+        style={{ color: props.mode === "light" ? "black" : "white" }}
+      >
         <h1>{props.heading}</h1>
         <div className="mb-3">
           <textarea
@@ -49,6 +72,10 @@ export default function TextForm(props) {
             rows="8"
             value={text}
             onChange={handleOnChange}
+            style={{
+              color: props.mode === "light" ? "black" : "white",
+              backgroundColor: props.mode === "dark" ? "#495057" : "white",
+            }}
             placeholder={text}
           ></textarea>
         </div>
@@ -68,14 +95,21 @@ export default function TextForm(props) {
           Remove Extra Space
         </button>
       </div>
-      <div className="container my-3">
+      <div
+        className="container my-3"
+        style={{ color: props.mode === "light" ? "black" : "white" }}
+      >
         <h2>Your Text Summary</h2>
         <p>
-          {text.split(" ").length} words and {text.length} characters.
+          {calculateWords()} words and {text.length} characters.
         </p>
-        <p>{0.008 * text.split(" ").length} Minutes Read</p>
+        <p>{calculateMinute()} Minutes Read</p>
         <h2>Preview</h2>
-        <p>{text}</p>
+        <p>
+          {text.length > 0
+            ? text
+            : "Enter Something in the textbox above to preview it here"}
+        </p>
       </div>
     </>
   );
