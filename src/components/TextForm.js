@@ -5,13 +5,14 @@ export default function TextForm(props) {
     // console.log("upper Case was clicked", text);
     let newtext = text.toUpperCase();
     setText(newtext);
+    props.showAlert("Converted to uppercase", "success");
   };
 
   const handleLoClick = () => {
     // console.log("upper Case was clicked", text);
     let newtext = text.toLowerCase();
-
     setText(newtext);
+    props.showAlert("Converted to lowercase", "success");
   };
 
   const handleOnChange = (event) => {
@@ -22,38 +23,41 @@ export default function TextForm(props) {
 
   const handleClear = () => {
     setText("");
+    props.showAlert("Text cleared", "success");
   };
 
   const handleCopy = () => {
     let textBox = document.getElementById("myBox");
     textBox.select();
     navigator.clipboard.writeText(textBox.value);
+    props.showAlert("Copied to Clipboard", "success");
   };
 
   const handleRemoveSpave = () => {
     let newtext = text.split(/[ ]+/);
     setText(newtext.join(" "));
+    props.showAlert("Extra space removed", "success");
   };
 
-  const calculateMinute = () => {
-    let minutes;
-    if (text === "") {
-      minutes = 0;
-    } else {
-      minutes = 0.008 * text.split(" ").length;
-    }
-    return minutes;
-  };
+  // const calculateMinute = () => {
+  //   let minutes;
+  //   if (text === "") {
+  //     minutes = 0;
+  //   } else {
+  //     minutes = 0.008 * text.split(" ").length;
+  //   }
+  //   return minutes;
+  // };
 
-  const calculateWords = () => {
-    let words;
-    if (text === "") {
-      words = 0;
-    } else {
-      words = text.split(" ").length;
-    }
-    return words;
-  };
+  // const calculateWords = () => {
+  //   let words;
+  //   if (text === "") {
+  //     words = 0;
+  //   } else {
+  //     words = text.split(" ").length;
+  //   }
+  //   return words;
+  // };
 
   const [text, setText] = useState("");
   // text = "new state"; // Wrong Way to change the state
@@ -101,9 +105,14 @@ export default function TextForm(props) {
       >
         <h2>Your Text Summary</h2>
         <p>
-          {calculateWords()} words and {text.length} characters.
+          {/* {calculateWords()} words and {text.length} characters. */}
+          {text.length > 0 ? text.split(" ").length : 0} words and {text.length}{" "}
+          characters.
         </p>
-        <p>{calculateMinute()} Minutes Read</p>
+        {/* <p>{calculateMinute()} Minutes Read</p> */}
+        <p>
+          {text.length > 0 ? 0.008 * text.split(" ").length : 0} Minutes Read
+        </p>
         <h2>Preview</h2>
         <p>
           {text.length > 0
