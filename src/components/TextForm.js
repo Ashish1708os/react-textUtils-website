@@ -27,9 +27,11 @@ export default function TextForm(props) {
   };
 
   const handleCopy = () => {
-    let textBox = document.getElementById("myBox");
-    textBox.select();
-    navigator.clipboard.writeText(textBox.value);
+    // let textBox = document.getElementById("myBox");
+    // textBox.select();
+    // navigator.clipboard.writeText(textBox.value);
+    navigator.clipboard.writeText(text);
+    // document.getSelection().removeAllRanges();
     props.showAlert("Copied to Clipboard", "success");
   };
 
@@ -68,7 +70,7 @@ export default function TextForm(props) {
         className="Container"
         style={{ color: props.mode === "light" ? "black" : "white" }}
       >
-        <h1>{props.heading}</h1>
+        <h1 className="mb-3">{props.heading}</h1>
         <div className="mb-3">
           <textarea
             className="form-control"
@@ -83,19 +85,47 @@ export default function TextForm(props) {
             placeholder={text}
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-1" onClick={handleUpClick}>
+        <button
+          disabled={
+            text.split(" ").filter((element) => {
+              return element.length !== 0;
+            }).length === 0
+          }
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleUpClick}
+        >
           Convert to Uppercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleLoClick}>
+        <button
+          disabled={
+            text.split(" ").filter((element) => {
+              return element.length !== 0;
+            }).length === 0
+          }
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleLoClick}
+        >
           Convert to Lowercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleClear}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleClear}
+        >
           clear
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleCopy}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleCopy}
+        >
           Copy Text
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleRemoveSpave}>
+        <button
+          className="btn btn-primary mx-1 my-1"
+          disabled={text.length === 0}
+          onClick={handleRemoveSpave}
+        >
           Remove Extra Space
         </button>
       </div>
@@ -106,19 +136,25 @@ export default function TextForm(props) {
         <h2>Your Text Summary</h2>
         <p>
           {/* {calculateWords()} words and {text.length} characters. */}
-          {text.length > 0 ? text.split(" ").length : 0} words and {text.length}{" "}
-          characters.
+          {
+            text.split(/\s+/).filter((element) => {
+              return element.length !== 0;
+            }).length
+          }{" "}
+          words and {text.length} characters.
         </p>
         {/* <p>{calculateMinute()} Minutes Read</p> */}
         <p>
-          {text.length > 0 ? 0.008 * text.split(" ").length : 0} Minutes Read
+          {text.length > 0
+            ? 0.008 *
+              text.split(" ").filter((element) => {
+                return element.length !== 0;
+              }).length
+            : 0}{" "}
+          Minutes Read
         </p>
         <h2>Preview</h2>
-        <p>
-          {text.length > 0
-            ? text
-            : "Enter Something in the textbox above to preview it here"}
-        </p>
+        <p>{text.length > 0 ? text : "Nothing to preview"}</p>
       </div>
     </>
   );
